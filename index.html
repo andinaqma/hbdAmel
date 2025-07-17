@@ -11,9 +11,11 @@
 
   <style>
     p {
-  font-size: 18px; /* Ganti ukuran sesuai keinginan, misalnya 20px atau 1.2rem */
-  line-height: 1.6; /* Opsional: buat paragraf lebih nyaman dibaca */
-}
+      font-size: 18px;
+      /* Ganti ukuran sesuai keinginan, misalnya 20px atau 1.2rem */
+      line-height: 1.6;
+      /* Opsional: buat paragraf lebih nyaman dibaca */
+    }
 
     /* === Responsiveness for mobile screens === */
     @media (max-width: 480px) {
@@ -155,6 +157,7 @@
     }
 
     @keyframes caretBlink {
+
       from,
       to {
         border-color: transparent;
@@ -311,28 +314,28 @@
   </div>
 
   <!-- SURAT -->
- <!-- SURAT -->
-<div class="container hidden" id="surat" onclick="nextSurat()">
-  <div class="envelope-wrapper fade-in" id="amplopQR" style="display: none; margin-top: 20px;">
-    <div class="envelope" onclick="openLetter()">
-      <div class="flap"></div>
-      <div class="letter">
-        <div class="letter-inner">
-          <p class="letter-content">Scan or Click</p>
-          <a href="https://sticker.ly/s/4PS8NJ" target="_blank">
-            <img src="img/qr.png" alt="Klik untuk lanjut" width="200" />
-          </a>
+  <!-- SURAT -->
+  <div class="container hidden" id="surat" onclick="nextSurat()">
+    <div class="envelope-wrapper fade-in" id="amplopQR" style="display: none; margin-top: 20px;">
+      <div class="envelope" onclick="openLetter()">
+        <div class="flap"></div>
+        <div class="letter">
+          <div class="letter-inner">
+            <p class="letter-content">Scan or Click</p>
+            <a href="https://sticker.ly/s/4PS8NJ" target="_blank">
+              <img src="img/qr.png" alt="Klik untuk lanjut" width="200" />
+            </a>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Tambahkan jarak vertikal setelah gambar QR -->
+    <div style="height: 20px;"></div>
+
+    <p id="suratText" class="typewriter">Hope u enjoy this project...</p>
+    <p id="tapNextSurat" style="font-size: 14px; color: #777;">(Tap to next)</p>
   </div>
-
-  <!-- Tambahkan jarak vertikal setelah gambar QR -->
-  <div style="height: 20px;"></div>
-
-  <p id="suratText" class="typewriter">Hope u enjoy this project...</p>
-  <p id="tapNextSurat" style="font-size: 14px; color: #777;">(Tap to next)</p>
-</div>
 
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
@@ -395,49 +398,54 @@
     const suratKalimat = [
       "Meskipun ucapanku datang terlambat,",
       "tapi doaku selalu tepat waktu untukmu.",
-      "🌸 Hope u enjoy this project. With love— Andin"
+      "💞\n💞\n💞\nHope u enjoy this project. With love— Andin"
     ];
     let suratIndex = 0;
 
     function nextSurat() {
-      const suratElem = document.getElementById("suratText");
-      const tapToNext = document.getElementById("tapNextSurat");
-      const amplop = document.getElementById("amplopQR");
+  const suratElem = document.getElementById("suratText");
+  const tapToNext = document.getElementById("tapNextSurat");
+  const amplop = document.getElementById("amplopQR");
 
-      suratElem.classList.remove("fade-in");
-      void suratElem.offsetWidth;
+  suratElem.classList.remove("fade-in");
+  void suratElem.offsetWidth;
 
-      if (suratIndex < suratKalimat.length) {
-        if (suratIndex === suratKalimat.length - 1) {
-          suratElem.innerText = "";
-          tapToNext.style.display = "none";
+  if (suratIndex < suratKalimat.length) {
+    if (suratIndex === suratKalimat.length - 1) {
+      suratElem.innerHTML = "";
+      tapToNext.style.display = "none";
 
-          let fullText = suratKalimat[suratIndex];
-          let j = 0;
+      let fullText = suratKalimat[suratIndex];
+      let j = 0;
 
-          function ketik() {
-            if (j < fullText.length) {
-              suratElem.textContent += fullText.charAt(j);
-              j++;
-              setTimeout(ketik, 50);
-            } else {
-              setTimeout(() => {
-                amplop.style.display = "flex";
-                amplop.classList.remove("fade-in");
-                void amplop.offsetWidth;
-                amplop.classList.add("fade-in");
-              }, 1000);
-            }
+      function ketik() {
+        if (j < fullText.length) {
+          if (fullText.charAt(j) === "\n") {
+            suratElem.innerHTML += "<br>";
+          } else {
+            suratElem.innerHTML += fullText.charAt(j);
           }
-          ketik();
+          j++;
+          setTimeout(ketik, 50);
         } else {
-          suratElem.innerText = suratKalimat[suratIndex];
-          suratElem.classList.add("fade-in");
-          tapToNext.style.display = "block";
+          setTimeout(() => {
+            amplop.style.display = "flex";
+            amplop.classList.remove("fade-in");
+            void amplop.offsetWidth;
+            amplop.classList.add("fade-in");
+          }, 1000);
         }
-        suratIndex++;
       }
+      ketik();
+    } else {
+      suratElem.innerText = suratKalimat[suratIndex];
+      suratElem.classList.add("fade-in");
+      tapToNext.style.display = "block";
     }
+    suratIndex++;
+  }
+}
+
 
     function startConfetti() {
       const duration = 2000;
