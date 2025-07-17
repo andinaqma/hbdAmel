@@ -8,41 +8,48 @@
   <link rel="stylesheet" href="style.css" />
   <style>
     /* === Responsiveness for mobile screens === */
-@media (max-width: 480px) {
-  .container {
-    width: 90%;
-    padding: 20px;
-  }
-  button {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
-  h1.headline {
-    font-size: 20px;
-  }
-  .cat-image,
-  .photo {
-    width: 100%;
-    max-width: 100%;
-    margin-top: 16px;
-  }
-  .envelope {
-    width: 200px;
-    height: 140px;
-  }
-  .letter-inner img {
-    width: 70%;
-    max-width: 140px;
-  }
-  .typewriter {
-    font-size: 16px;
-  }
-  .sparkle,
-  .heart {
-    width: 6px;
-    height: 6px;
-  }
-}
+    @media (max-width: 480px) {
+      .container {
+        width: 90%;
+        padding: 20px;
+      }
+
+      button {
+        font-size: 14px;
+        padding: 8px 16px;
+      }
+
+      h1.headline {
+        font-size: 20px;
+      }
+
+      .cat-image,
+      .photo {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 16px;
+      }
+
+      .envelope {
+        width: 200px;
+        height: 140px;
+      }
+
+      .letter-inner img {
+        width: 70%;
+        max-width: 140px;
+      }
+
+      .typewriter {
+        font-size: 16px;
+      }
+
+      .sparkle,
+      .heart {
+        width: 6px;
+        height: 6px;
+      }
+    }
 
     body {
       margin: 0;
@@ -57,7 +64,6 @@
       position: relative;
     }
 
-    /* Sparkle */
     .sparkle {
       position: absolute;
       width: 8px;
@@ -86,7 +92,6 @@
       }
     }
 
-    /* Soft love */
     .heart {
       position: absolute;
       width: 12px;
@@ -131,7 +136,6 @@
       }
     }
 
-    /* Typewriter */
     .typewriter {
       display: inline-block;
       border-right: 2px solid #ff9ecb;
@@ -142,7 +146,6 @@
     }
 
     @keyframes caretBlink {
-
       from,
       to {
         border-color: transparent;
@@ -245,6 +248,10 @@
       flex-direction: column;
       margin-top: 20px;
     }
+
+    #amplopQR {
+      margin-top: 20px;
+    }
   </style>
 </head>
 
@@ -278,7 +285,6 @@
       istirahat.</p>
     <img src="img/birthdayphoto.jpg" class="photo fade-in" alt="Foto Amelia" />
     <button onclick="showMotivasi()" style="margin-top: 100px;">➡️ Lanjut</button>
-
   </div>
 
   <!-- MOTIVASI -->
@@ -296,23 +302,29 @@
   </div>
 
   <!-- SURAT -->
-  <div class="container hidden" id="surat" onclick="nextSurat()">
-    <div class="envelope-wrapper fade-in" id="amplopQR" style="display: none;">
-      <div class="envelope" onclick="openLetter()">
-        <div class="flap"></div>
-        <div class="letter">
-          <div class="letter-inner">
-            <p class="letter-content">Scan or Click</p>
-            <a href="https://sticker.ly/s/4PS8NJ" target="_blank">
-              <img src="img/qr.png" alt="Klik untuk lanjut" width="200" />
-            </a>
-          </div>
+ <!-- SURAT -->
+<div class="container hidden" id="surat" onclick="nextSurat()">
+  <div class="envelope-wrapper fade-in" id="amplopQR" style="display: none; margin-top: 20px;">
+    <div class="envelope" onclick="openLetter()">
+      <div class="flap"></div>
+      <div class="letter">
+        <div class="letter-inner">
+          <p class="letter-content">Scan or Click</p>
+          <a href="https://sticker.ly/s/4PS8NJ" target="_blank">
+            <img src="img/qr.png" alt="Klik untuk lanjut" width="200" />
+          </a>
         </div>
       </div>
     </div>
-    <p id="suratText" class="typewriter"></p>
-    <p id="tapNextSurat" style="font-size: 14px; color: #777;">(Tap to next)</p>
   </div>
+
+  <!-- Tambahkan jarak vertikal setelah gambar QR -->
+  <div style="height: 100px;"></div>
+
+  <p id="suratText" class="typewriter">Hope u enjoy this project...</p>
+  <p id="tapNextSurat" style="font-size: 14px; color: #777;">(Tap to next)</p>
+</div>
+
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
@@ -459,7 +471,9 @@
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 6000);
     }
+
     setInterval(createHeart, 300);
+
     document.querySelector("button").addEventListener("click", () => {
       const audio = document.getElementById("bgm");
       audio.muted = false;
