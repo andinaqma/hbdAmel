@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Late Birthday Amelia</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to top, #ffe6f0, #e0f7ff);
+      font-family: 'Comic Sans MS', 'Segoe UI', cursive;
+      position: relative;
+    }
+
+    /* Sparkle */
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: float 6s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: translateY(-40px) scale(1.2);
+        opacity: 0.4;
+      }
+
+      100% {
+        transform: translateY(-80px) scale(0.8);
+        opacity: 0;
+      }
+    }
+
+    /* Soft love */
+    .heart {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-color: rgba(255, 192, 203, 0.4);
+      transform: rotate(45deg);
+      animation: floatUp 6s ease-in-out forwards;
+      opacity: 0.6;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background-color: rgba(255, 192, 203, 0.4);
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -6px;
+      left: 0;
+    }
+
+    .heart::after {
+      top: 0;
+      left: -6px;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1) rotate(45deg);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-100vh) scale(1.5) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    /* Typewriter */
+    .typewriter {
+      display: inline-block;
+      border-right: 2px solid #ff9ecb;
+      white-space: nowrap;
+      overflow: hidden;
+      animation: caretBlink 0.7s step-end infinite;
+      font-style: italic;
+    }
+
+    @keyframes caretBlink {
+
+      from,
+      to {
+        border-color: transparent;
+      }
+
+      50% {
+        border-color: #ff9ecb;
+      }
+    }
+
+    .container {
+      text-align: center;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 400px;
+      max-height: 90vh;
+      overflow-y: auto;
+      transition: opacity 0.5s ease;
+      z-index: 1;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 18px;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      background-color: #ffd1dc;
+      color: #333;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ffb3c6;
+    }
+
+    button::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.4);
+      transform: skewX(-20deg);
+      transition: left 0.5s ease;
+    }
+
+    button:hover::after {
+      left: 125%;
+    }
+
+    .photo,
+    .cat-image {
+      width: 100%;
+      border-radius: 20px;
+      margin-top: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    #ucapan p {
+      text-align: left;
+    }
+
+    h1.headline {
+      font-size: 22px;
+    }
+
+    .envelope-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <audio id="bgm" autoplay loop muted>
+    <source src="sound/photograph.mp3" type="audio/mp3" />
+  </audio>
+
+  <!-- PAGE 1 -->
+  <div class="container" id="page1">
+    <h1 class="headline">u found the cutest gift</h1>
+    <img src="img/amel.png" alt="Cute Cats" class="cat-image" />
+    <h2>Hallo Meng..!</h2>
+    <button onclick="nextPage()">❤️ Klik ini dungs!</button>
+  </div>
+
+  <!-- SCENE -->
+  <div class="container hidden fade-in" id="scene" onclick="nextScene()">
+    <p id="text" class="fade-in"></p>
+    <p id="tapNextScene" style="font-size: 14px; color: #777;">(Tap to next)</p>
+    <button id="toUcapan" onclick="showUcapan(event)" style="display:none">🎁 Lihat Ucapannya</button>
+  </div>
+
+  <!-- UCAPAN -->
+  <div class="container hidden" id="ucapan">
+    <h1 class="fade-in">🎂 Happy Late Birthday Amengg</h1>
+    <p class="fade-in">Semoga panjang umur, selalu sehat, selalu bahagia,<br> kuliahnya dilancarkan dan bisa lulus
+      dengan hasil terbaik.</p>
+    <p class="fade-in">Semoga tahun ini membawa kebahagiaan baru dan impian-impianmu satu per satu dikabulkan.</p>
+    <p class="fade-in">Terima kasih sudah jadi dirimu. Tetap semangat terus ya!<br> Kalau butuh istirahat jangan lupa
+      istirahat.</p>
+    <img src="img/birthdayphoto.jpg" class="photo fade-in" alt="Foto Amelia" />
+    <button onclick="showMotivasi()">➡️ Lanjut</button>
+  </div>
+
+  <!-- MOTIVASI -->
+  <div class="container hidden" id="motivasi">
+    <p class="fade-in"><em>You are not behind in life. You’re exactly where you need to be.</em></p>
+    <button onclick="showSuratIntro()">please click</button>
+  </div>
+
+  <!-- SURAT INTRO -->
+  <div class="container hidden" id="surat-intro">
+    <h1 class="fade-in">Maaf banget ya..</h1>
+    <p class="fade-in">Aku sadar ini telat banget... 😔🙏🏻</p>
+    <p class="fade-in">Biasanya aku tahu dari IG Story, tapi IG-ku sempat aku hapus dan aku jarang buka IG.</p>
+    <button onclick="showSurat()">➡️ Lanjut</button>
+  </div>
+
+  <!-- SURAT -->
+  <div class="container hidden" id="surat" onclick="nextSurat()">
+    <div class="envelope-wrapper fade-in" id="amplopQR" style="display: none;">
+      <div class="envelope" onclick="openLetter()">
+        <div class="flap"></div>
+        <div class="letter">
+          <div class="letter-inner">
+            <p class="letter-content">Scan or Click</p>
+            <a href="https://sticker.ly/s/4PS8NJ" target="_blank">
+              <img src="img/qr.png" alt="Klik untuk lanjut" width="200" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p id="suratText" class="typewriter"></p>
+    <p id="tapNextSurat" style="font-size: 14px; color: #777;">(Tap to next)</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script>
+    function nextPage() {
+      document.getElementById("page1").classList.add("hidden");
+      document.getElementById("scene").classList.remove("hidden");
+      nextScene();
+    }
+
+    const teks = ["Meng... Aku tahu ini telat banget...", "Tapi ada sesuatu yang ingin aku sampaikan..."];
+    let i = 0;
+
+    function nextScene() {
+      const textElem = document.getElementById("text");
+      const tapToNext = document.getElementById("tapNextScene");
+
+      if (i < teks.length) {
+        textElem.innerText = teks[i];
+        textElem.classList.remove("fade-in");
+        void textElem.offsetWidth;
+        textElem.classList.add("fade-in");
+
+        if (i === teks.length - 1) {
+          tapToNext.style.display = "none";
+          setTimeout(() => {
+            document.getElementById("toUcapan").style.display = "inline-block";
+          }, 700);
+        } else {
+          tapToNext.style.display = "block";
+        }
+
+        i++;
+      }
+    }
+
+    function showUcapan(e) {
+      e.stopPropagation();
+      document.getElementById("scene").classList.add("hidden");
+      document.getElementById("ucapan").classList.remove("hidden");
+      startConfetti();
+    }
+
+    function showMotivasi() {
+      document.getElementById("ucapan").classList.add("hidden");
+      document.getElementById("motivasi").classList.remove("hidden");
+    }
+
+    function showSuratIntro() {
+      document.getElementById("motivasi").classList.add("hidden");
+      document.getElementById("surat-intro").classList.remove("hidden");
+    }
+
+    function showSurat() {
+      document.getElementById("surat-intro").classList.add("hidden");
+      document.getElementById("surat").classList.remove("hidden");
+      nextSurat();
+    }
+
+    const suratKalimat = [
+      "Meskipun ucapanku datang terlambat,",
+      "tapi doaku selalu tepat waktu untukmu.",
+      "🌸 Hope u enjoy this project. With love— Andin"
+    ];
+    let suratIndex = 0;
+
+    function nextSurat() {
+      const suratElem = document.getElementById("suratText");
+      const tapToNext = document.getElementById("tapNextSurat");
+      const amplop = document.getElementById("amplopQR");
+
+      suratElem.classList.remove("fade-in");
+      void suratElem.offsetWidth;
+
+      if (suratIndex < suratKalimat.length) {
+        if (suratIndex === suratKalimat.length - 1) {
+          suratElem.innerText = "";
+          tapToNext.style.display = "none";
+
+          let fullText = suratKalimat[suratIndex];
+          let j = 0;
+
+          function ketik() {
+            if (j < fullText.length) {
+              suratElem.textContent += fullText.charAt(j);
+              j++;
+              setTimeout(ketik, 50);
+            } else {
+              setTimeout(() => {
+                amplop.style.display = "flex";
+                amplop.classList.remove("fade-in");
+                void amplop.offsetWidth;
+                amplop.classList.add("fade-in");
+              }, 1000);
+            }
+          }
+          ketik();
+        } else {
+          suratElem.innerText = suratKalimat[suratIndex];
+          suratElem.classList.add("fade-in");
+          tapToNext.style.display = "block";
+        }
+        suratIndex++;
+      }
+    }
+
+    function startConfetti() {
+      const duration = 2000;
+      const end = Date.now() + duration;
+      (function frame() {
+        confetti({ particleCount: 5, spread: 70, origin: { y: 0.6 } });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    }
+
+    function openLetter() {
+      document.querySelector(".envelope").classList.add("open");
+    }
+
+    // Sparkles
+    for (let i = 0; i < 50; i++) {
+      const sparkle = document.createElement("div");
+      sparkle.className = "sparkle";
+      sparkle.style.left = Math.random() * 100 + "vw";
+      sparkle.style.top = Math.random() * 100 + "vh";
+      sparkle.style.animationDelay = Math.random() * 6 + "s";
+      sparkle.style.animationDuration = 4 + Math.random() * 4 + "s";
+      document.body.appendChild(sparkle);
+    }
+
+    // Hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "vw";
+
+      const randomTop = Math.random();
+      if (randomTop < 0.5) {
+        heart.style.top = Math.random() * 20 + "vh";
+      } else {
+        heart.style.top = 80 + Math.random() * 20 + "vh";
+      }
+
+      heart.style.animationDuration = 4 + Math.random() * 2 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 300);
+    document.querySelector("button").addEventListener("click", () => {
+      const audio = document.getElementById("bgm");
+      audio.muted = false;
+      audio.play();
+    });
+  </script>
+</body>
+
+</html>
